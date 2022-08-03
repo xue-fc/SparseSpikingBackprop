@@ -384,7 +384,7 @@ class SparseSNNLayer(torch.autograd.Function):
 
             # Compute first hidden layer activity
             for t in range(nb_steps - 1):
-
+                # 这里就是LIF
                 new_mem = beta * mem + h1[:, t, :] - rst
                 mem = new_mem
 
@@ -436,6 +436,7 @@ class SparseSNNLayer(torch.autograd.Function):
 
     @staticmethod
     def backward(ctx, grad_output, grad_dummy1):
+        # 返回值必须和
         spk_trace, aout_b, aout_t, aout_i, aout_mem, ain_b, ain_t, ain_i, alphas, weight = ctx.saved_tensors
         batch_size, nb_steps, nb_inputs, nb_hidden = ctx.batch_size, ctx.nb_steps, ctx.nb_inputs, ctx.nb_hidden
         grad_input, grad_weights = None, None
